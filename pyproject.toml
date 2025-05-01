@@ -1,0 +1,17 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "thufir"
+authors = [{name = "ni3dzwi3dz"}]
+version = "0.1.0" 
+dependencies = [
+    "fastapi[standard]==0.115.8",
+    "feedparser==6.0.11"
+]
+
+[project.optional-dependencies]
+testing = [
+    "pytest"
+]
