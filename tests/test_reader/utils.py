@@ -1,16 +1,19 @@
 from dataclasses import dataclass
 
+
 @dataclass
 class MockFeedDescription:
     title: str
     link: str
     description: str
 
+
 @dataclass
 class MockFeed:
     entries: list[str]
     feed: MockFeedDescription
     bozo: dict | None = None
+
 
 feed_foo = MockFeed(
     entries=[
@@ -21,8 +24,8 @@ feed_foo = MockFeed(
     feed=MockFeedDescription(
         title="Foo Feed",
         link="http://example.com/foo",
-        description="This is the Foo feed."
-    )
+        description="This is the Foo feed.",
+    ),
 )
 
 feed_bar = MockFeed(
@@ -34,9 +37,10 @@ feed_bar = MockFeed(
     feed=MockFeedDescription(
         title="Bar Feed",
         link="http://example.com/bar",
-        description="This is the Bar feed."
-    )
+        description="This is the Bar feed.",
+    ),
 )
+
 
 def mock_feed_parser(feed_url: str) -> MockFeed | None:
 
@@ -46,4 +50,3 @@ def mock_feed_parser(feed_url: str) -> MockFeed | None:
         return feed_bar
     else:
         return None
-
