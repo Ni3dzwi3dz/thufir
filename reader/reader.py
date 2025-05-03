@@ -1,18 +1,3 @@
-# What do i need?
-# - parse multiple feeds 
-# - return entries from all feeds
-# - return entries from a single feed
-# - return unread entries from all feeds
-# - return unread entries from a single feed
-# - add feed
-# - remove feed
-# - return list of feeds
-
-# Architecture
-# - class will accept a list of feeds
-# - do i need any other data on init?
-# - how to mark read/unread?
-
 import feedparser
 import logging
 from typing import Callable
