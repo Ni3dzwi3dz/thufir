@@ -5,7 +5,8 @@ build-backend = "hatchling.build"
 [project]
 name = "thufir"
 authors = [{name = "ni3dzwi3dz"}]
-version = "0.1.0" 
+version = "0.1.0"
+requires-python = ">=3.8,<4.0"
 dependencies = [
     "fastapi[standard]==0.115.8",
     "feedparser==6.0.11"
@@ -15,3 +16,13 @@ dependencies = [
 testing = [
     "pytest"
 ]
+
+[tools.hatch.envs.default]
+python = "3.13"
+features = ["testing"]
+
+[tools.hatch.envs.default.scripts]
+unit = ["pytest tests/"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["reader"]
