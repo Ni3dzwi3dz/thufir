@@ -5,6 +5,7 @@ from langchain_community.document_loaders import WebBaseLoader
 
 log = logging.getLogger(__name__)
 
+
 class Agent:
     def __init__(self, document_loader: WebBaseLoader):
         self.document_loader = document_loader

@@ -1,4 +1,3 @@
-
 class ThufirConfig(object):
     _instance = None
 

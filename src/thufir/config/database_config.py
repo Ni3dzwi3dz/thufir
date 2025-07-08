@@ -3,7 +3,6 @@ import os
 from pydantic import BaseModel, Field, model_validator
 
 
-
 class DatabaseConfig(BaseModel):
     model_config = {
         "extra": "forbid",  # Disallow extra fields
@@ -26,7 +25,7 @@ class DatabaseConfig(BaseModel):
         for field in self.model_fields.keys():
             env_value = os.getenv(f"THUFIR_DB_{field.upper()}")
             if env_value is not None:
-                data[field] = env_value        
+                data[field] = env_value
 
         return data
 
@@ -35,6 +34,4 @@ class DatabaseConfig(BaseModel):
         """
         Returns the database connection string.
         """
-        return (
-            f"postgresql://{self.username}:{self.password}@{self.host}:{self.port}/{self.database}"
-        )
+        return f"postgresql://{self.username}:{self.password}@{self.host}:{self.port}/{self.database}"
