@@ -17,10 +17,10 @@ from RSS streams, but will also be
 * Can find articles on the same topic
 
 ### REST API
-* Allows to retreive single article
-* Allows to retreive feed articles
-* Allows to retreive article summary by id
-* Allows to retreive daily summary by date
+* Allows to retrieve single article
+* Allows to retrieve feed articles
+* Allows to retrieve article summary by id
+* Allows to retrieve daily summary by date
 * Allows to perform lookup in summaries by topic
 
 ### Frontend
