@@ -1,10 +1,12 @@
 import os
+import logging
 
 from langchain_community.document_loaders import WebBaseLoader
 
+log = logging.getLogger(__name__)
 
 class Agent:
-    def init(self, document_loader: WebBaseLoader):
+    def __init__(self, document_loader: WebBaseLoader):
         self.document_loader = document_loader
 
     def load_documents(self, urls: list[str]):

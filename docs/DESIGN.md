@@ -5,7 +5,7 @@ from RSS streams, but will also be
 ## Basic requirements
 ### Reader
 * Can read subscribed channels from config
-* Can retreive single article from feed
+* Can retrieve single article from feed
 * Can mark article as seen
 * Can mark article as interesting
 

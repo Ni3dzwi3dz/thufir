@@ -1,5 +1,3 @@
-from types import MappingProxyType
-
 
 class ThufirConfig(object):
     _instance = None
