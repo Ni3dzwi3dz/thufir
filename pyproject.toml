@@ -9,7 +9,10 @@ version = "0.1.0"
 requires-python = ">=3.8,<4.0"
 dependencies = [
     "fastapi[standard]==0.115.8",
-    "feedparser==6.0.11"
+    "feedparser==6.0.11",
+    "langchain==0.3.25",
+    "SQLAlchemy==2.0.41",
+    "pre-commit==4.2.0",
 ]
 
 [project.optional-dependencies]
@@ -17,11 +20,14 @@ testing = [
     "pytest"
 ]
 
-[tools.hatch.envs.default]
+[project.scripts]
+dev = "src.thufir.thufir:dev"
+
+[tool.hatch.envs.default]
 python = "3.13"
 features = ["testing"]
 
-[tools.hatch.envs.default.scripts]
+[tool.hatch.envs.default.scripts]
 unit = ["pytest tests/"]
 
 [tool.hatch.build.targets.wheel]

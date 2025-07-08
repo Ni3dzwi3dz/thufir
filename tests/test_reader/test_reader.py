@@ -1,4 +1,4 @@
-from reader.reader import RSSReader
+from thufir.reader.rss_reader import RSSReader
 from tests.test_reader.utils import mock_feed_parser
 
 

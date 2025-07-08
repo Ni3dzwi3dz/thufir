@@ -52,3 +52,14 @@ class RSSReader:
         else:
             log.error(f"Feed {feed_title} not found.")
             return []
+
+    def add_feed(self, feed_url: str) -> None:
+        """Add a new feed URL to the reader."""
+        log.debug(f"Adding new feed: {feed_url}")
+        self.feed_urls.append(feed_url)
+        parsed_feed = self.feed_parser(feed_url)
+        if not parsed_feed.bozo:
+            self.feeds[parsed_feed.feed.title] = parsed_feed
+            log.debug(f"Feed {parsed_feed.feed.title} added successfully.")
+        else:
+            log.error(f"Error adding feed {feed_url}: {parsed_feed.bozo_exception}")
