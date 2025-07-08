@@ -18,5 +18,5 @@ class Agent:
                 document = self.document_loader.load(url)
                 documents.append(document)
             except Exception as e:
-                print(f"Error loading document from {url}: {e}")
+                log.error(f"Error loading document from {url}: {e}")
         return documents
