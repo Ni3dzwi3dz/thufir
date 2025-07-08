@@ -4,7 +4,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.engine import Engine
 
 
-def get_engine(config: DatabaseConfig):
+def get_engine(config: DatabaseConfig) -> Engine:
     """
     Returns a SQLAlchemy engine based on the provided DatabaseConfig.
     """
