@@ -1,86 +1,64 @@
 import pytest
+from pytest import fixture
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, clear_mappers
 from src.thufir.models.rss import Base, Feed, Article
 
-# TODO: These tests rely on each other, think of a way to make them independent,
-# or putting everything in a flow test
 
-
-@pytest.fixture(scope="module")
-def engine():
+@pytest.fixture(scope="function")
+def db_session():
     engine = create_engine("sqlite:///:memory:")
     Base.metadata.create_all(engine)
-    yield engine
-    Base.metadata.drop_all(engine)
-    clear_mappers()
-
-
-@pytest.fixture
-def session(engine):
     Session = sessionmaker(bind=engine)
     session = Session()
     yield session
+    session.rollback()
     session.close()
 
 
-def test_create_feed(session):
+def test_create_feed(db_session):
+    """Test basic Feed creation with required fields."""
     feed = Feed(
-        title="Test Feed",
-        link="http://example.com",
-        description="A test feed",
-        last_updated="2024-07-10",
-        encoding="utf-8",
+        title="Tech News",
+        link="https://example.com/feed.xml",
+        description="Latest tech updates",
+        last_updated="2023-01-01T12:00:00Z",
+        encoding="UTF-8",
     )
-    session.add(feed)
-    session.commit()
+    db_session.add(feed)
+    db_session.commit()
+
     assert feed.id is not None
+    assert feed.title == "Tech News"
+    assert feed.encoding == "UTF-8"
+
+    assert db_session.query(Feed).count() == 1
 
 
-def test_create_article(session):
+def test_create_article(db_session):
+    """Test basic Article creation with required fields."""
     feed = Feed(
-        title="Feed for Article",
-        link="http://feed.com",
-        description="Feed desc",
-        last_updated="2024-07-10",
-        encoding="utf-8",
+        title="Tech News",
+        link="https://example.com/feed.xml",
+        description="Latest tech updates",
+        last_updated="2023-01-01T12:00:00Z",
+        encoding="UTF-8",
     )
-    session.add(feed)
-    session.commit()
+    db_session.add(feed)
+    db_session.commit()
 
     article = Article(
         feed_id=feed.id,
-        title="Test Article",
-        link="http://article.com",
-        summary="Article summary",
-        published="2024-07-10",
+        title="New Tech Gadget",
+        link="https://example.com/article/1",
+        summary="A summary of the new tech gadget.",
+        published="2023-01-02T12:00:00Z",
     )
-    session.add(article)
-    session.commit()
+    db_session.add(article)
+    db_session.commit()
+
     assert article.id is not None
+    assert article.title == "New Tech Gadget"
     assert article.feed_id == feed.id
 
-
-def test_query_feed(session):
-    feed = session.query(Feed).filter_by(title="Test Feed").first()
-    assert feed is not None
-    assert feed.title == "Test Feed"
-    assert feed.link == "http://example.com"
-
-
-def test_query_article(session):
-    article = session.query(Article).filter_by(title="Test Article").first()
-    assert article is not None
-    assert article.title == "Test Article"
-    assert article.link == "http://article.com"
-    assert article.feed_id is not None
-
-
-def test_number_of_feeds(session):
-    count = session.query(Feed).count()
-    assert count == 2
-
-
-def test_number_of_articles(session):
-    count = session.query(Article).count()
-    assert count == 1
+    assert db_session.query(Article).count() == 1

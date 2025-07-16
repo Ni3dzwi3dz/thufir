@@ -1,5 +1,5 @@
 from abc import abstractmethod, ABC
-from typing import List
+from typing import List, Type
 from sqlalchemy import Engine
 
 from src.thufir.models.rss import Base
@@ -18,7 +18,7 @@ class Database(ABC):
         pass
 
     @abstractmethod
-    def put_one(self, item: Base) -> None:  # Should this be a None?
+    def put_one(self, model: Type[Base], item: Base) -> None:  # Should this be a None?
         """
         Insert a single item into the database.
         """
@@ -37,16 +37,23 @@ class Database(ABC):
         pass
 
     @abstractmethod
-    def get_all(self, model: Base) -> List[Base]:
+    def get_all(self, model: Type[Base]) -> List[Base]:
         """
         Retrieve all items of a specific model from the database.
         """
         pass
 
     @abstractmethod
-    def get_one(self, item_id: int) -> Base:  # TODO: Rethink signature
+    def get_by_id(self, model: Type[Base], item_id: int) -> Base:
         """
         Retrieve a single item from the database.
+        """
+        pass
+
+    @abstractmethod
+    def get_filtered(self, model: Type[Base], **filters) -> List[Base]:
+        """
+        Retrieve filtered items of a specific model from the database.
         """
         pass
 
@@ -66,14 +73,14 @@ class Database(ABC):
         pass
 
     @abstractmethod
-    def delete_one(self, item: Base) -> None:
+    def delete_one(self, model: Type[Base], item_id: int) -> None:
         """
         Delete a single item from the database.
         """
         pass
 
     @abstractmethod
-    def delete_many(self, items: List[Base]) -> None:
+    def delete_many(self, model: Type[Base], items: List[int]) -> None:
         """
         Delete multiple items from the database.
         Should be atomic, meaning all items are deleted or none.
