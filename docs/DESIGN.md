@@ -36,9 +36,9 @@ TBC
 ## Architecture decisions and coding style
 
 ## General
-* Abstractions will be used to define each object expcted behaviour
+* Abstractions will be used to define each object expected behaviour
 * There will be a clear division of app into layers
-* Each layer will explicitly accept all needed lyers as dependency injection
+* Each layer will explicitly accept all needed layers as dependency injection
 
 ## Components
 
