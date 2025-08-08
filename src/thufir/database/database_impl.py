@@ -87,3 +87,4 @@ class DatabaseImpl(Database):
             items = session.query(model).filter(model.id.in_(item_ids)).all()
             for item in items:
                 session.delete(item)
+                session.commit()

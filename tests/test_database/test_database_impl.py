@@ -149,3 +149,94 @@ def test_get_by_id(db_impl: DatabaseImpl):
 
     # Test not found
     assert db_impl.get_by_id(Feed, 999) is None
+
+
+def test_update_one(db_impl: DatabaseImpl):
+    """Test updating a single record in the database."""
+    feed = Feed(
+        title="Old Title",
+        link="http://example.com/old",
+        description="Old Description",
+        last_updated="2023-01-01T00:00:00Z",
+        encoding="UTF-8",
+    )
+    db_impl.put_one(Feed, feed)
+
+    # Update the feed
+    feed.title = "New Title"
+    db_impl.update_one(feed)
+
+    updated_feed = db_impl.get_by_id(Feed, 1)
+    assert updated_feed.title == "New Title"
+
+
+def test_update_many(db_impl: DatabaseImpl):
+    """Test updating multiple records in the database."""
+    feed1 = Feed(
+        title="Feed 1",
+        link="http://example.com/feed1",
+        description="Description 1",
+        last_updated="2023-01-01T00:00:00Z",
+        encoding="UTF-8",
+    )
+    feed2 = Feed(
+        title="Feed 2",
+        link="http://example.com/feed2",
+        description="Description 2",
+        last_updated="2023-01-02T00:00:00Z",
+        encoding="UTF-8",
+    )
+    db_impl.put_many([feed1, feed2])
+
+    # Update both feeds
+    feed1.title = "Updated Feed 1"
+    feed2.title = "Updated Feed 2"
+    db_impl.update_many([feed1, feed2])
+
+    updated_feeds = db_impl.get_all(Feed)
+    assert len(updated_feeds) == 2
+    assert updated_feeds[0].title == "Updated Feed 1"
+    assert updated_feeds[1].title == "Updated Feed 2"
+
+
+def test_delete_one(db_impl: DatabaseImpl):
+    """Test deleting a single record from the database."""
+    feed = Feed(
+        title="Feed to Delete",
+        link="http://example.com/delete",
+        description="Delete this feed",
+        last_updated="2023-01-01T00:00:00Z",
+        encoding="UTF-8",
+    )
+    db_impl.put_one(Feed, feed)
+
+    # Delete the feed
+    db_impl.delete_one(Feed, 1)
+
+    assert db_impl.get_by_id(Feed, 1) is None
+
+
+def test_delete_many(db_impl: DatabaseImpl):
+    """Test deleting multiple records from the database."""
+    feed1 = Feed(
+        title="Feed 1",
+        link="http://example.com/feed1",
+        description="Description 1",
+        last_updated="2023-01-01T00:00:00Z",
+        encoding="UTF-8",
+    )
+    feed2 = Feed(
+        title="Feed 2",
+        link="http://example.com/feed2",
+        description="Description 2",
+        last_updated="2023-01-02T00:00:00Z",
+        encoding="UTF-8",
+    )
+    db_impl.put_many([feed1, feed2])
+
+    assert len(db_impl.get_all(Feed)) == 2
+
+    # Delete both feeds
+    db_impl.delete_many(Feed, [1, 2])
+
+    assert len(db_impl.get_all(Feed)) == 0
