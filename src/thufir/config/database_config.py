@@ -15,14 +15,18 @@ class DatabaseConfig(BaseModel):
     port: int = Field(description="Database port")
     database: str = Field(description="Database name")
     echo: bool = Field(default=True, description="Enable SQLAlchemy echo")
+    type: str = Field(
+        default="postgresql", description="Database type (e.g., postgresql, mysql)"
+    )
 
     @model_validator(mode="before")
-    def add_from_env(self, data: dict) -> dict:
+    @classmethod
+    def add_from_env(cls, data: dict) -> dict:
         """
         Add configuration from environment variables.
         """
 
-        for field in self.model_fields.keys():
+        for field in cls.model_fields.keys():
             env_value = os.getenv(f"THUFIR_DB_{field.upper()}")
             if env_value is not None:
                 data[field] = env_value
@@ -34,4 +38,4 @@ class DatabaseConfig(BaseModel):
         """
         Returns the database connection string.
         """
-        return f"postgresql://{self.username}:{self.password}@{self.host}:{self.port}/{self.database}"
+        return f"{self.type}://{self.username}:{self.password}@{self.host}:{self.port}/{self.database}"

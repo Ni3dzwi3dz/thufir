@@ -3,6 +3,7 @@
 Thufir should be an AI-boosted RSS reader. Not only it will provide access to articles
 from RSS streams, but will also be
 ## Basic requirements
+
 ### Reader
 * Can read subscribed channels from config
 * Can retrieve single article from feed
@@ -32,7 +33,12 @@ TBC
 * Allow profile management
 * Choose, add and delete feeds
 
+## Architecture decisions and coding style
 
+## General
+* Abstractions will be used to define each object expected behaviour
+* There will be a clear division of app into layers
+* Each layer will explicitly accept all needed layers as dependency injection
 
 ## Components
 
