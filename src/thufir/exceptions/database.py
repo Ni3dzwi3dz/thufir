@@ -1,0 +1,2 @@
+class EngineCreationError(Exception):
+    pass
