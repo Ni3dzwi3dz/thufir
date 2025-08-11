@@ -24,10 +24,6 @@ class Database(ABC):
         """
         pass
 
-    # Should put_many iterate through list and call put_one for each item?
-    # This would mean, putting list is not atomic.
-    # If you want atomicity, you might need to use a single transaction.
-
     @abstractmethod
     def put_many(self, items: List[Base]) -> None:
         """
@@ -51,7 +47,7 @@ class Database(ABC):
         pass
 
     @abstractmethod
-    def get_filtered(self, model: Type[Base], **filters) -> List[Base]:
+    def get_filtered(self, model: Type[Base], *filters) -> List[Base]:
         """
         Retrieve filtered items of a specific model from the database.
         """

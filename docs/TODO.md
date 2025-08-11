@@ -6,6 +6,8 @@
 [ ] Implement RSS stream class
 [ ] Implement reader class, accepting list of streams
 
+## Database
+[ ] Introduce error mapping to communicate failures clearly
 
 ## REST API
 [ ] Endpoints i need:
