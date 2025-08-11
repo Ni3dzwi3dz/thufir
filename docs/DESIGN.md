@@ -4,6 +4,33 @@ Thufir should be an AI-boosted RSS reader. Not only it will provide access to ar
 from RSS streams, but will also be
 ## Basic requirements
 
+## Architecture
+
+### Frontend
+Vue.js using
+
+### Domain layer
+* Includes abstractions and datatypes for rest of the system
+* Does not depend on anything
+*
+
+### Application Layer
+Provides operations for business logic.
+
+### Presentation Layer
+Provides logic for serving all the prepared data
+
+### Data Gathering Layer
+Provides operations for retreiving articles- starts with RSS Reader, will include web scraping in the future
+
+### Repository Layer
+Depends on persistence layer, providing model-specific persistence operations
+
+### Persistence Layer
+Creates an interface for a database, providing basic CRUD operations
+
+## Feature actions
+
 ### Reader
 * Can read subscribed channels from config
 * Can retrieve single article from feed

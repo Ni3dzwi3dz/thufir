@@ -7,7 +7,11 @@
 [ ] Implement reader class, accepting list of streams
 
 ## Database
-[ ] Introduce error mapping to communicate failures clearly
+[ ] Introduce error mapping to communicate failures
+
+## Repositories
+
+[ ] Introduce feed repository
 
 ## REST API
 [ ] Endpoints i need:
