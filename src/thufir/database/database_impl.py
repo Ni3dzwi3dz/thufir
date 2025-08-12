@@ -2,7 +2,7 @@ from contextlib import contextmanager
 from src.thufir.config.database_config import DatabaseConfig
 from src.thufir.abstractions.database import Database
 from src.thufir.exceptions.database import EngineCreationError, ElementNotFoundError
-from src.thufir.models.rss import Base
+from src.thufir.database.models.rss import Base
 
 from sqlalchemy import create_engine, select
 from sqlalchemy.orm import Session

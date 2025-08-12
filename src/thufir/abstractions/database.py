@@ -2,7 +2,7 @@ from abc import abstractmethod, ABC
 from typing import List, Type
 from sqlalchemy import Engine
 
-from src.thufir.models.rss import Base
+from src.thufir.database.models.rss import Base
 
 
 class Database(ABC):

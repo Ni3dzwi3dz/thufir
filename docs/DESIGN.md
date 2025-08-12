@@ -14,20 +14,26 @@ Vue.js using
 * Does not depend on anything
 *
 
-### Application Layer
-Provides operations for business logic.
+### Presentation(Api) Layer
+Provides logic to handle requests, serialize data etc.
+Classes like FeedAPI depend on Manager abstraction to create data to be returned to client.
 
-### Presentation Layer
-Provides logic for serving all the prepared data
+### Business layer
+Provides business logic for operations on feed, articles etc. It encapsulates most of the logic connected
+to features visible by user i.e. "get all articles from feed X" or  "get summary for article Y"
 
-### Data Gathering Layer
-Provides operations for retreiving articles- starts with RSS Reader, will include web scraping in the future
+Classes like FeedManager depend on Repository abstraction and Provider abstraction
+
+### Provider Layer
+Provides operations for retreiving new data- parsing feed, scraping article etc.
 
 ### Repository Layer
 Depends on persistence layer, providing model-specific persistence operations
 
 ### Persistence Layer
 Creates an interface for a database, providing basic CRUD operations
+
+
 
 ## Feature actions
 
