@@ -10,7 +10,8 @@ from tests.utils.database_config import sqlite_db_config
 @pytest.fixture
 def db_impl():
     db = DatabaseImpl(sqlite_db_config)
-    Base.metadata.create_all(db.engine)  # Ensure the database schema is created
+    # Ensure the database schema is created
+    Base.metadata.create_all(db.engine)
     yield db
 
 
