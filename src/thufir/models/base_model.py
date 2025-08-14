@@ -24,3 +24,16 @@ class ThufirModel(BaseModel):
         if not cls._db_model:
             raise DatabaseModelNotSet(cls.__name__)
         return cls.model_validate(db_model)
+
+    @classmethod
+    def from_request(cls, request_data: dict) -> "ThufirModel":
+        """
+        Create an instance of the model from request data.
+        """
+        return cls.model_validate(request_data)
+
+    def to_response(self) -> dict:
+        """
+        Convert the model instance to a dictionary suitable for response.
+        """
+        return self.model_dump(exclude_unset=True, by_alias=True)
