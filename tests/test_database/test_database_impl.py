@@ -2,7 +2,7 @@ import pytest
 
 from src.thufir.database.database_impl import DatabaseImpl
 from src.thufir.config.database_config import DatabaseConfig
-from src.thufir.models.rss import Base, Feed, Article
+from src.thufir.database.models.rss import Base, Feed, Article
 
 from tests.utils.database_config import sqlite_db_config
 
