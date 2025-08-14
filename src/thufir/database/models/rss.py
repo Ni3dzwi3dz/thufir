@@ -1,3 +1,4 @@
+from datetime import datetime
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 
@@ -21,4 +22,4 @@ class Article(Base):
     title: Mapped[str] = mapped_column()
     link: Mapped[str] = mapped_column()
     summary: Mapped[str] = mapped_column()
-    published: Mapped[str] = mapped_column()
+    published: Mapped[datetime] = mapped_column()
