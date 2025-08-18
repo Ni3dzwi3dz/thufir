@@ -1,7 +1,6 @@
 import pytest
 
 from src.thufir.database.database_impl import DatabaseImpl
-from src.thufir.config.database_config import DatabaseConfig
 from src.thufir.models.rss import Base, Feed, Article
 
 from tests.utils.database_config import sqlite_db_config
@@ -10,7 +9,8 @@ from tests.utils.database_config import sqlite_db_config
 @pytest.fixture
 def db_impl():
     db = DatabaseImpl(sqlite_db_config)
-    Base.metadata.create_all(db.engine)  # Ensure the database schema is created
+    # Ensure the database schema is created
+    Base.metadata.create_all(db.engine)
     yield db
 
 
@@ -83,7 +83,7 @@ def test_get_filtered(db_impl: DatabaseImpl):
         last_updated="2023-01-03T00:00:00Z",
         encoding="UTF-8",
     )
-    feed3 = Feed(
+    feed3 = Feed(  # noqa
         title="Test Feed 3",
         link="http://example.com/feed3",
         description="Test Description 3",
