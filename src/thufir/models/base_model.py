@@ -1,7 +1,6 @@
 from typing import Optional
 from pydantic import BaseModel, ConfigDict
 
-from src.thufir.database.models.base import Base
 from src.thufir.exceptions.models import DatabaseModelNotSet
 
 

@@ -1,7 +1,9 @@
 import pytest
+
+from datetime import datetime
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from src.thufir.models.rss import Feed, Article
+from src.thufir.database.models.rss import Feed, Article
 from src.thufir.database.models.base import Base
 
 
@@ -22,7 +24,7 @@ def test_create_feed(db_session):
         title="Tech News",
         link="https://example.com/feed.xml",
         description="Latest tech updates",
-        last_updated="2023-01-01T12:00:00Z",
+        last_updated=datetime.fromisoformat("2023-01-01T12:00:00Z"),
         encoding="UTF-8",
     )
     db_session.add(feed)
@@ -41,7 +43,7 @@ def test_create_article(db_session):
         title="Tech News",
         link="https://example.com/feed.xml",
         description="Latest tech updates",
-        last_updated="2023-01-01T12:00:00Z",
+        last_updated=datetime.fromisoformat("2023-01-01T12:00:00Z"),
         encoding="UTF-8",
     )
     db_session.add(feed)
@@ -52,7 +54,7 @@ def test_create_article(db_session):
         title="New Tech Gadget",
         link="https://example.com/article/1",
         summary="A summary of the new tech gadget.",
-        published="2023-01-02T12:00:00Z",
+        published=datetime.fromisoformat("2023-01-02T12:00:00Z"),
     )
     db_session.add(article)
     db_session.commit()

@@ -1,4 +1,4 @@
-from src.thufir.models.rss import Feed, Article
+from src.thufir.models.rss import Feed
 
 
 def test_if_conversion_to_db_model_works_for_feed():
