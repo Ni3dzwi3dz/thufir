@@ -18,7 +18,8 @@ class Database(ABC):
         pass
 
     @abstractmethod
-    def put_one(self, model: Type[Base], item: Base) -> None:  # Should this be a None?
+    # Should this be a None?
+    def put_one(self, model: Type[Base], item: Base) -> None:
         """
         Insert a single item into the database.
         """
