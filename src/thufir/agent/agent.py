@@ -1,4 +1,3 @@
-import os
 import logging
 
 from langchain_community.document_loaders import WebBaseLoader

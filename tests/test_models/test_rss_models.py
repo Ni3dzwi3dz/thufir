@@ -1,7 +1,6 @@
 import pytest
-from pytest import fixture
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker, clear_mappers
+from sqlalchemy.orm import sessionmaker
 from src.thufir.models.rss import Base, Feed, Article
 
 

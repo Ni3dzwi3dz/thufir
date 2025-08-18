@@ -9,7 +9,7 @@ class SQLiteDatabaseConfig(DatabaseConfig):
 
     @property
     def connection_string(self) -> str:
-        return f"sqlite:///:memory:"
+        return "sqlite:///:memory:"
 
 
 sqlite_db_config = SQLiteDatabaseConfig(
