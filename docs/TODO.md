@@ -1,3 +1,7 @@
+## Functionalities
+[ ] Introduce categories to group feeds and articles
+[ ] Introduce tags to describe articles and feeds
+
 ## Config
 [ ] Implement config class using Pydantic
 [ ] Design config structure for different parts - each should be a subclass
@@ -6,6 +10,12 @@
 [ ] Implement RSS stream class
 [ ] Implement reader class, accepting list of streams
 
+## Database
+[ ] Introduce error mapping to communicate failures
+
+## Repositories
+
+[ ] Introduce feed repository
 
 ## REST API
 [ ] Endpoints i need:
@@ -17,3 +27,6 @@
 
 
 ## AI summary
+
+## Docs
+[ ] Rewrite to Sphinx

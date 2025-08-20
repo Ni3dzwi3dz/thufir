@@ -2,7 +2,7 @@ from abc import abstractmethod, ABC
 from typing import List, Type
 from sqlalchemy import Engine
 
-from src.thufir.models.rss import Base
+from src.thufir.database.models.rss import Base
 
 
 class Database(ABC):
@@ -24,10 +24,6 @@ class Database(ABC):
         Insert a single item into the database.
         """
         pass
-
-    # Should put_many iterate through list and call put_one for each item?
-    # This would mean, putting list is not atomic.
-    # If you want atomicity, you might need to use a single transaction.
 
     @abstractmethod
     def put_many(self, items: List[Base]) -> None:
@@ -52,7 +48,7 @@ class Database(ABC):
         pass
 
     @abstractmethod
-    def get_filtered(self, model: Type[Base], **filters) -> List[Base]:
+    def get_filtered(self, model: Type[Base], *filters) -> List[Base]:
         """
         Retrieve filtered items of a specific model from the database.
         """
