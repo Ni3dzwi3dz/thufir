@@ -2,8 +2,9 @@ from abc import abstractmethod, ABC
 from typing import Optional, TypeVar
 
 from src.thufir.models.base_model import ThufirModel
+from src.thufir.models.user import User
 from src.thufir.abstractions.database import Database
-from src.thufir.models.rss import Feed
+from src.thufir.models.rss import Article, Feed
 
 T = TypeVar("T", bound=ThufirModel)
 
@@ -60,5 +61,53 @@ class FeedRepository(Repository):
     def get_feeds_by_user(self, user_id: int) -> list[Feed]:
         """
         Retrieve all feeds associated with a specific user.
+        """
+        pass
+
+
+class ArticleRepository(Repository):
+
+    @abstractmethod
+    def get_articles_by_feed(self, feed_id: int) -> list[Article]:
+        """
+        Retrieve all articles associated with a specific feed.
+        """
+        pass
+
+
+class UserRepository(Repository):
+
+    @abstractmethod
+    def get_user_by_id(self, user_id: int) -> Optional[User]:
+        """
+        Retrieve a user by their ID.
+        """
+        pass
+
+    @abstractmethod
+    def get_all_users(self) -> list[User]:
+        """
+        Retrieve all users.
+        """
+        pass
+
+    @abstractmethod
+    def create_user(self, user: User) -> int:
+        """
+        Create a new user.
+        """
+        pass
+
+    @abstractmethod
+    def update_user(self, user: User) -> int:
+        """
+        Update an existing user.
+        """
+        pass
+
+    @abstractmethod
+    def delete_user(self, user_id: int) -> bool:
+        """
+        Delete a user by their ID.
         """
         pass
