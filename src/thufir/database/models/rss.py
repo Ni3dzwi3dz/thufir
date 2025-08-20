@@ -11,7 +11,7 @@ class Feed(Base):
     title: Mapped[str] = mapped_column()
     link: Mapped[str] = mapped_column()
     description: Mapped[str] = mapped_column()
-    last_updated: Mapped[str] = mapped_column()
+    last_updated: Mapped[datetime] = mapped_column()
     encoding: Mapped[str] = mapped_column()
 
 

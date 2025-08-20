@@ -14,8 +14,8 @@ class ThufirModel(BaseModel):
     _db_model: Optional[type] = None
 
     def to_db_model(self) -> BaseModel:
-        if self._db_model:
-            return self._db_model(**self.model_dump())
+        if type(self)._db_model:
+            return type(self)._db_model(**self.model_dump())  # type: ignore
         raise DatabaseModelNotSet(self.__class__.__name__)
 
     @classmethod

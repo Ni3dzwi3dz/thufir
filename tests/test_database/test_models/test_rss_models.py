@@ -64,3 +64,23 @@ def test_create_article(db_session):
     assert article.feed_id == feed.id
 
     assert db_session.query(Article).count() == 1
+
+    def test_db_conversion_for_feed():
+        feed = Feed(
+            title="Tech News",
+            link="https://example.com/feed.xml",
+            description="Latest tech updates",
+            last_updated=datetime.fromisoformat("2023-01-01T12:00:00Z"),
+            encoding="UTF-8",
+        )
+        assert Feed.from_db_model(feed.to_db_model()) == feed
+
+    def test_db_conversion_for_article():
+        article = Article(
+            feed_id=1,
+            title="New Tech Gadget",
+            link="https://example.com/article/1",
+            summary="A summary of the new tech gadget.",
+            published=datetime.fromisoformat("2023-01-02T12:00:00Z"),
+        )
+        assert Article.from_db_model(article.to_db_model()) == article

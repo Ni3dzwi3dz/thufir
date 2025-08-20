@@ -58,7 +58,7 @@ class FeedManager(Manager):
         pass
 
     @abstractmethod
-    def update_feed(self, feed_id: Id, feed_data: dict) -> Optional[T]:
+    def update_feed(self, feed_id: Id, feed_data: dict) -> Optional[Feed]:
         """
         Update a feed by its ID.
         """
@@ -68,5 +68,54 @@ class FeedManager(Manager):
     def parse_feed(self, feed_id: Id) -> Feed:
         """
         Check feed to get new data.
+        """
+        pass
+
+
+class ArticleManager(Manager):
+    """
+    ArticleManager is responsible for managing articles, including their creation, retrieval, and deletion.
+    It uses a repository to interact with the data store and a provider for additional functionalities.
+    """
+
+    @abstractmethod
+    def create_article(self, article_data: dict) -> ThufirModel:
+        """
+        Create a new article with the provided data.
+        """
+        pass
+
+    @abstractmethod
+    def get_article(self, article_id: Id) -> Optional[ThufirModel]:
+        """
+        Retrieve an article by its ID.
+        """
+        pass
+
+    @abstractmethod
+    def delete_article(self, article_id: Id) -> bool:
+        """
+        Delete an article by its ID.
+        """
+        pass
+
+    @abstractmethod
+    def mark_as_read(self, article_id: Id) -> bool:
+        """
+        Mark an article as read by its ID.
+        """
+        pass
+
+    @abstractmethod
+    def has_summary(self, article_id: Id) -> bool:
+        """
+        Check if an article has a summary by its ID.
+        """
+        pass
+
+    @abstractmethod
+    def add_tag(self, article_id: Id, tag: str) -> bool:
+        """
+        Add a tag to an article by its ID.
         """
         pass
