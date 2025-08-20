@@ -1,5 +1,6 @@
 from typing import Optional
 from pydantic import BaseModel, ConfigDict
+from pydantic.fields import ModelPrivateAttr
 
 from src.thufir.exceptions.models import DatabaseModelNotSet
 
@@ -11,11 +12,13 @@ class ThufirModel(BaseModel):
 
     model_config = ConfigDict(from_attributes=True, extra="forbid")
 
-    _db_model: Optional[type] = None
+    _db_model: Optional[ModelPrivateAttr] = None
 
     def to_db_model(self) -> BaseModel:
-        if type(self)._db_model:
-            return type(self)._db_model(**self.model_dump())  # type: ignore
+        db_model = type(self)._db_model
+
+        if db_model and db_model.default:
+            return db_model.default(**self.model_dump())  # type: ignore
         raise DatabaseModelNotSet(self.__class__.__name__)
 
     @classmethod
