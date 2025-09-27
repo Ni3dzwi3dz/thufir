@@ -11,9 +11,10 @@ dependencies = [
     "fastapi[standard]==0.115.8",
     "feedparser==6.0.11",
     "langchain==0.3.25",
-    "SQLAlchemy==2.0.41",
+    "sqlmodel==0.0.25",
     "psycopg2==2.9.10",
     "pre-commit==4.2.0",
+    "dependency-injector==4.48.2"
 ]
 
 [project.optional-dependencies]

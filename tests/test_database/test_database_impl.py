@@ -1,10 +1,11 @@
 import pytest
 
 from datetime import datetime
+from sqlmodel import SQLModel
 
 from src.thufir.database.database_impl import DatabaseImpl
-from src.thufir.database.models.rss import Feed, Article
-from src.thufir.database.models.base import Base
+from src.thufir.models.rss import Feed, Article
+
 
 from tests.utils.database_config import sqlite_db_config
 
@@ -13,7 +14,7 @@ from tests.utils.database_config import sqlite_db_config
 def db_impl():
     db = DatabaseImpl(sqlite_db_config)
     # Ensure the database schema is created
-    Base.metadata.create_all(db.engine)
+    SQLModel.metadata.create_all(db.engine)
     yield db
 
 
@@ -32,7 +33,6 @@ def test_put_one(db_impl: DatabaseImpl):
         title="Test Article",
         link="http://example.com/article",
         feed_id=feed.id,
-        summary="Test Summary",
         published=datetime.fromisoformat("2023-01-01T00:00:00Z"),
     )
 
@@ -147,8 +147,8 @@ def test_get_by_id(db_impl: DatabaseImpl):
 
     # Test found
     retrieved = db_impl.get_by_id(Feed, 1)
-    assert retrieved.id == 1
-    assert retrieved.title == "Test Feed"
+    assert retrieved.id == 1  # type: ignore[union-attr]
+    assert retrieved.title == "Test Feed"  # type: ignore[union-attr]
 
     # Test not found
     assert db_impl.get_by_id(Feed, 999) is None
@@ -170,7 +170,7 @@ def test_update_one(db_impl: DatabaseImpl):
     db_impl.update_one(feed)
 
     updated_feed = db_impl.get_by_id(Feed, 1)
-    assert updated_feed.title == "New Title"
+    assert updated_feed.title == "New Title"  # type: ignore[union-attr]
 
 
 def test_update_many(db_impl: DatabaseImpl):
