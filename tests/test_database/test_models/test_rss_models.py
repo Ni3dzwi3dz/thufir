@@ -123,7 +123,7 @@ def test_model_dict_conversion():
         encoding="UTF-8",
     )
 
-    feed_dict = feed.dict()
+    feed_dict = feed.model_dump()
     assert feed_dict["id"] == 1
     assert feed_dict["title"] == "Test Feed"
     assert "last_updated" in feed_dict
@@ -139,7 +139,7 @@ def test_model_json_serialization():
         encoding="UTF-8",
     )
 
-    json_str = feed_create.json()
+    json_str = feed_create.model_dump_json()
     assert "JSON Feed" in json_str
     assert "json-feed" in json_str
 
@@ -155,7 +155,7 @@ def test_feed_create_to_table_model():
     )
 
     # Convert to table model
-    feed = Feed(**feed_create.dict())
+    feed = Feed(**feed_create.model_dump())
 
     assert feed.title == feed_create.title
     assert feed.link == feed_create.link
