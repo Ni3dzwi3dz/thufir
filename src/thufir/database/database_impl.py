@@ -1,16 +1,16 @@
 from contextlib import contextmanager
-from src.thufir.config.database_config import DatabaseConfig
-from src.thufir.abstractions.database import Database
-from src.thufir.exceptions.database import EngineCreationError
-from src.thufir.models.rss import Base
-
 from sqlalchemy import create_engine, select
 from sqlalchemy.orm import Session
 from sqlalchemy.engine import Engine
+from sqlmodel import SQLModel
+from typing import Generator, List, Type, TypeVar
 
-from typing import List, Type
+from src.thufir.config.database_config import DatabaseConfig
+from src.thufir.abstractions.database import Database
+from src.thufir.exceptions.database import EngineCreationError
 
 # TODO: Handle exceptions in database operations
+T = TypeVar("T", bound=SQLModel)
 
 
 class DatabaseImpl(Database):
@@ -23,7 +23,7 @@ class DatabaseImpl(Database):
         return self._engine
 
     @contextmanager
-    def session(self) -> Session:
+    def session(self) -> Generator[Session, None, None]:
         session = Session(self._engine)
         try:
             yield session
@@ -39,17 +39,17 @@ class DatabaseImpl(Database):
         except Exception as e:
             raise EngineCreationError(f"Failed to create database engine: {e}")
 
-    def put_one(self, model: Type[Base], item: Base) -> None:
+    def put_one(self, model: Type[T], item: T) -> None:
         with self.session() as session:
             session.add(item)
             session.commit()
 
-    def put_many(self, items: list[Base]) -> None:
+    def put_many(self, items: list[T]) -> None:
         with self.session() as session:
             session.add_all(items)
             session.commit()
 
-    def get_all(self, model: Type[Base]) -> List[Base]:
+    def get_all(self, model: Type[T]) -> List[T]:
         with self.session() as session:
             return session.query(model).all()
 
@@ -57,34 +57,34 @@ class DatabaseImpl(Database):
         with self.session() as session:
             return session.query(model).filter(*filters).all()
 
-    def get_by_id(self, model: Type[Base], item_id: int) -> Base:
+    def get_by_id(self, model: Type[T], item_id: int) -> T | None:
         with self.session() as session:
-            stmt = select(model).where(model.id == item_id)
+            stmt = select(model).where(model.id == item_id)  # type: ignore[attr-defined]
             result = session.execute(stmt).scalar_one_or_none()
             return result
 
-    def update_one(self, item: Base) -> None:
+    def update_one(self, item: T) -> None:
         with self.session() as session:
             session.merge(item)
             session.commit()
 
-    def update_many(self, items: List[Base]) -> None:
+    def update_many(self, items: List[T]) -> None:
         with self.session() as session:
             for item in items:
                 session.merge(item)
             session.commit()
 
-    def delete_one(self, model: Type[Base], item_id: int) -> None:
+    def delete_one(self, model: Type[T], item_id: int) -> None:
         with self.session() as session:
-            item = session.query(model).filter_by(id=item_id).first()
+            item = session.query(model).filter_by(id=item_id).first()  # type: ignore[attr-defined]
             if item:
                 session.delete(item)
                 session.commit()
             # TODO handle case where item is not found, maybe raise an exception
 
-    def delete_many(self, model: Type[Base], item_ids: List[int]) -> None:
+    def delete_many(self, model: Type[T], item_ids: List[int]) -> None:
         with self.session() as session:
-            items = session.query(model).filter(model.id.in_(item_ids)).all()
+            items = session.query(model).filter(model.id.in_(item_ids)).all()  # type: ignore[attr-defined]
             for item in items:
                 session.delete(item)
             session.commit()

@@ -1,8 +1,9 @@
 from abc import abstractmethod, ABC
-from typing import List, Type
+from typing import List, Type, TypeVar
 from sqlalchemy import Engine
+from sqlmodel import SQLModel
 
-from src.thufir.models.rss import Base
+T = TypeVar("T", bound=SQLModel)
 
 
 class Database(ABC):
@@ -19,18 +20,14 @@ class Database(ABC):
 
     @abstractmethod
     # Should this be a None?
-    def put_one(self, model: Type[Base], item: Base) -> None:
+    def put_one(self, model: Type[T], item: T) -> None:
         """
         Insert a single item into the database.
         """
         pass
 
-    # Should put_many iterate through list and call put_one for each item?
-    # This would mean, putting list is not atomic.
-    # If you want atomicity, you might need to use a single transaction.
-
     @abstractmethod
-    def put_many(self, items: List[Base]) -> None:
+    def put_many(self, items: List[T]) -> None:
         """
         Insert multiple items into the database.
         Should be atomic, meaning all items are inserted or none.
@@ -38,35 +35,35 @@ class Database(ABC):
         pass
 
     @abstractmethod
-    def get_all(self, model: Type[Base]) -> List[Base]:
+    def get_all(self, model: Type[T]) -> List[T]:
         """
         Retrieve all items of a specific model from the database.
         """
         pass
 
     @abstractmethod
-    def get_by_id(self, model: Type[Base], item_id: int) -> Base:
+    def get_by_id(self, model: Type[T], item_id: int) -> T | None:
         """
         Retrieve a single item from the database.
         """
         pass
 
     @abstractmethod
-    def get_filtered(self, model: Type[Base], **filters) -> List[Base]:
+    def get_filtered(self, model: Type[T], *filters) -> List[T]:
         """
         Retrieve filtered items of a specific model from the database.
         """
         pass
 
     @abstractmethod
-    def update_one(self, item: Base) -> None:
+    def update_one(self, item: T) -> None:
         """
         Update a single item in the database.
         """
         pass
 
     @abstractmethod
-    def update_many(self, items: List[Base]) -> None:
+    def update_many(self, items: List[T]) -> None:
         """
         Update multiple items in the database.
         Should be atomic, meaning all items are updated or none.
@@ -74,14 +71,14 @@ class Database(ABC):
         pass
 
     @abstractmethod
-    def delete_one(self, model: Type[Base], item_id: int) -> None:
+    def delete_one(self, model: Type[T], item_id: int) -> None:
         """
         Delete a single item from the database.
         """
         pass
 
     @abstractmethod
-    def delete_many(self, model: Type[Base], items: List[int]) -> None:
+    def delete_many(self, model: Type[T], items: List[int]) -> None:
         """
         Delete multiple items from the database.
         Should be atomic, meaning all items are deleted or none.

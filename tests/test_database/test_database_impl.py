@@ -1,7 +1,11 @@
 import pytest
 
+from datetime import datetime
+from sqlmodel import SQLModel
+
 from src.thufir.database.database_impl import DatabaseImpl
-from src.thufir.models.rss import Base, Feed, Article
+from src.thufir.models.rss import Feed, Article
+
 
 from tests.utils.database_config import sqlite_db_config
 
@@ -10,7 +14,7 @@ from tests.utils.database_config import sqlite_db_config
 def db_impl():
     db = DatabaseImpl(sqlite_db_config)
     # Ensure the database schema is created
-    Base.metadata.create_all(db.engine)
+    SQLModel.metadata.create_all(db.engine)
     yield db
 
 
@@ -21,7 +25,7 @@ def test_put_one(db_impl: DatabaseImpl):
         title="Test Feed",
         link="http://example.com/feed",
         description="Test Description",
-        last_updated="2023-01-01T00:00:00Z",
+        last_updated=datetime.fromisoformat("2023-01-01T00:00:00Z"),
         encoding="UTF-8",
     )
     article = Article(
@@ -29,8 +33,7 @@ def test_put_one(db_impl: DatabaseImpl):
         title="Test Article",
         link="http://example.com/article",
         feed_id=feed.id,
-        summary="Test Summary",
-        published="2023-01-01T00:00:00Z",
+        published=datetime.fromisoformat("2023-01-01T00:00:00Z"),
     )
 
     db_impl.put_one(Feed, feed)
@@ -51,14 +54,14 @@ def test_put_many(db_impl: DatabaseImpl):
         title="Test Feed 2",
         link="http://example.com/feed2",
         description="Test Description 2",
-        last_updated="2023-01-02T00:00:00Z",
+        last_updated=datetime.fromisoformat("2023-01-02T00:00:00Z"),
         encoding="UTF-8",
     )
     feed2 = Feed(
         title="Test Feed 3",
         link="http://example.com/feed3",
         description="Test Description 3",
-        last_updated="2023-01-03T00:00:00Z",
+        last_updated=datetime.fromisoformat("2023-01-03T00:00:00Z"),
         encoding="UTF-8",
     )
 
@@ -73,21 +76,21 @@ def test_get_filtered(db_impl: DatabaseImpl):
         title="Test Feed 2",
         link="http://example.com/feed2",
         description="Test Description 2",
-        last_updated="2023-01-02T00:00:00Z",
+        last_updated=datetime.fromisoformat("2023-01-02T00:00:00Z"),
         encoding="UTF-8",
     )
     feed2 = Feed(
         title="Test Feed 3",
         link="http://example.com/feed3",
         description="Test Description 3",
-        last_updated="2023-01-03T00:00:00Z",
+        last_updated=datetime.fromisoformat("2023-01-03T00:00:00Z"),
         encoding="UTF-8",
     )
     feed3 = Feed(  # noqa
         title="Test Feed 3",
         link="http://example.com/feed3",
         description="Test Description 3",
-        last_updated="2023-01-03T00:00:00Z",
+        last_updated=datetime.fromisoformat("2023-01-03T00:00:00Z"),
         encoding="CP1252",
     )
 
@@ -113,14 +116,14 @@ def test_get_all(db_impl: DatabaseImpl):
             title="Feed 1",
             link="l1",
             description="d1",
-            last_updated="2023-01-01",
+            last_updated=datetime.fromisoformat("2023-01-01T00:00:00Z"),
             encoding="UTF-8",
         ),
         Feed(
             title="Feed 2",
             link="l2",
             description="d2",
-            last_updated="2023-01-02",
+            last_updated=datetime.fromisoformat("2023-01-02T00:00:00Z"),
             encoding="UTF-8",
         ),
     ]
@@ -137,15 +140,15 @@ def test_get_by_id(db_impl: DatabaseImpl):
         title="Test Feed",
         link="http://example.com",
         description="Test",
-        last_updated="2023-01-01T00:00:00Z",
+        last_updated=datetime.fromisoformat("2023-01-01T00:00:00Z"),
         encoding="UTF-8",
     )
     db_impl.put_one(Feed, feed)
 
     # Test found
     retrieved = db_impl.get_by_id(Feed, 1)
-    assert retrieved.id == 1
-    assert retrieved.title == "Test Feed"
+    assert retrieved.id == 1  # type: ignore[union-attr]
+    assert retrieved.title == "Test Feed"  # type: ignore[union-attr]
 
     # Test not found
     assert db_impl.get_by_id(Feed, 999) is None
@@ -157,7 +160,7 @@ def test_update_one(db_impl: DatabaseImpl):
         title="Old Title",
         link="http://example.com/old",
         description="Old Description",
-        last_updated="2023-01-01T00:00:00Z",
+        last_updated=datetime.fromisoformat("2023-01-01T00:00:00Z"),
         encoding="UTF-8",
     )
     db_impl.put_one(Feed, feed)
@@ -167,7 +170,7 @@ def test_update_one(db_impl: DatabaseImpl):
     db_impl.update_one(feed)
 
     updated_feed = db_impl.get_by_id(Feed, 1)
-    assert updated_feed.title == "New Title"
+    assert updated_feed.title == "New Title"  # type: ignore[union-attr]
 
 
 def test_update_many(db_impl: DatabaseImpl):
@@ -176,14 +179,14 @@ def test_update_many(db_impl: DatabaseImpl):
         title="Feed 1",
         link="http://example.com/feed1",
         description="Description 1",
-        last_updated="2023-01-01T00:00:00Z",
+        last_updated=datetime.fromisoformat("2023-01-01T00:00:00Z"),
         encoding="UTF-8",
     )
     feed2 = Feed(
         title="Feed 2",
         link="http://example.com/feed2",
         description="Description 2",
-        last_updated="2023-01-02T00:00:00Z",
+        last_updated=datetime.fromisoformat("2023-01-02T00:00:00Z"),
         encoding="UTF-8",
     )
     db_impl.put_many([feed1, feed2])
@@ -205,7 +208,7 @@ def test_delete_one(db_impl: DatabaseImpl):
         title="Feed to Delete",
         link="http://example.com/delete",
         description="Delete this feed",
-        last_updated="2023-01-01T00:00:00Z",
+        last_updated=datetime.fromisoformat("2023-01-01T00:00:00Z"),
         encoding="UTF-8",
     )
     db_impl.put_one(Feed, feed)
@@ -222,14 +225,14 @@ def test_delete_many(db_impl: DatabaseImpl):
         title="Feed 1",
         link="http://example.com/feed1",
         description="Description 1",
-        last_updated="2023-01-01T00:00:00Z",
+        last_updated=datetime.fromisoformat("2023-01-01T00:00:00Z"),
         encoding="UTF-8",
     )
     feed2 = Feed(
         title="Feed 2",
         link="http://example.com/feed2",
         description="Description 2",
-        last_updated="2023-01-02T00:00:00Z",
+        last_updated=datetime.fromisoformat("2023-01-02T00:00:00Z"),
         encoding="UTF-8",
     )
     db_impl.put_many([feed1, feed2])
