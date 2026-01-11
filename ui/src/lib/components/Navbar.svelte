@@ -1,0 +1,37 @@
+<script>
+	import Button from './Button.svelte';
+</script>
+
+<div id="navbar" class="bg-gray-800 flex items-center">
+	<img src="/img/thufir_logo_small.png" alt="Thufir Logo" />
+	<nav>
+		<ul id="menu">
+			<li><Button text="Home" href="/" /></li>
+			<li><Button text="About" href="/about" /></li>
+			<li><Button text="Contact" href="/contact" /></li>
+		</ul>
+	</nav>
+</div>
+
+<style>
+	#navbar {
+		position: fixed;
+		top: 0;
+		width: 100%;
+		height: 20vh;
+	}
+	ul#menu {
+		display: flex;
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		align-items: center;
+	}
+	ul#menu li {
+		margin-right: 1.5rem;
+	}
+	img {
+		height: 100%;
+		margin-right: 2rem;
+	}
+</style>
