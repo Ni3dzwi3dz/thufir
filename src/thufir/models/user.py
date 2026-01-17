@@ -9,7 +9,7 @@ class UserBase(SQLModel):
     name: str = Field(description="User full name")
 
 
-class User(UserBase, table=True):
+class User(UserBase, table=True):  # type: ignore
     """SQLModel for User - works as both Pydantic model and SQLAlchemy ORM"""
 
     __tablename__ = "users"

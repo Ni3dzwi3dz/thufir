@@ -13,7 +13,7 @@ class FeedBase(SQLModel):
     encoding: str = Field(description="Encoding of the feed")
 
 
-class Feed(FeedBase, table=True):
+class Feed(FeedBase, table=True):  # type: ignore
     """SQLModel for Feed - works as both Pydantic model and SQLAlchemy ORM"""
 
     __tablename__ = "feeds"
@@ -45,7 +45,7 @@ class ArticleBase(SQLModel):
     published: datetime = Field(description="Publication date of the article")
 
 
-class Article(ArticleBase, table=True):
+class Article(ArticleBase, table=True):  # type: ignore
     """SQLModel for Article - works as both Pydantic model and SQLAlchemy ORM"""
 
     __tablename__ = "articles"

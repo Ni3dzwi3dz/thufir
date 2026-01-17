@@ -10,43 +10,24 @@
 	<link rel="icon" href={favicon} />
 </svelte:head>
 
-<div id="navbar" class="bg-gray-800 flex items-center">
-	<img src="/img/thufir_logo_small.png" alt="Thufir Logo" />
-	<nav>
-		<ul id="menu">
-			<li><Button text="Home" href="/" /></li>
-			<li><Button text="About" href="/about" /></li>
-			<li><Button text="Contact" href="/contact" /></li>
-		</ul>
-	</nav>
-	<div class="ml-auto mr-4">
-		<Button text="Login" href="/login" />
-	</div>
+
+<div id="navbar" class="fixed top-0 w-full h-[10vh] bg-gray-800 flex items-center z-50">
+   <img src="/img/thufir_logo_small.png" alt="Thufir Logo" class="h-full mr-8" />
+   <nav>
+	   <ul id="menu" class="flex list-none p-0 m-0 items-center">
+		   <li class="mr-6"><Button text="Home" href="/" /></li>
+		   <li class="mr-6"><Button text="About" href="/about" /></li>
+		   <li class="mr-6"><Button text="Contact" href="/contact" /></li>
+	   </ul>
+   </nav>
+   <div class="ml-auto mr-4">
+	   <Button text="Login" href="/login" />
+   </div>
 </div>
 
-<div id='main-content' style="margin-top: 10vh;">
+
+<div id='main-content' class="mt-[10vh]">
 	{@render children()}
 </div>
 
-<style>
-	#navbar {
-		position: fixed;
-		top: 0;
-		width: 100%;
-		height: 10vh;
-	}
-	ul#menu {
-		display: flex;
-		list-style: none;
-		padding: 0;
-		margin: 0;
-		align-items: center;
-	}
-	ul#menu li {
-		margin-right: 1.5rem;
-	}
-	img {
-		height: 100%;
-		margin-right: 2rem;
-	}
-</style>
+

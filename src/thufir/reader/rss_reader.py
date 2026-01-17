@@ -21,11 +21,11 @@ class RSSReader:
     def parse_feeds(self) -> Dict:
         """Parse all feeds and return a dictionary of feed titles and their parsed data."""
 
-        feeds = {}
+        feeds: Dict[str, feedparser.FeedParserDict] = {}
 
         for feed in self.feed_urls:
-            parsed_feed = self.feed_parser(feed)
-            if parsed_feed.bozo:
+            parsed_feed: feedparser.FeedParserDict = self.feed_parser(feed)
+            if parsed_feed.bozo:  # type: ignore[union-attr]
                 log.error(f"Error parsing feed {feed}: {parsed_feed.bozo_exception}")
                 continue
 
@@ -57,7 +57,7 @@ class RSSReader:
         """Add a new feed URL to the reader."""
         log.debug(f"Adding new feed: {feed_url}")
         self.feed_urls.append(feed_url)
-        parsed_feed = self.feed_parser(feed_url)
+        parsed_feed: feedparser.FeedParserDict = self.feed_parser(feed_url)
         if not parsed_feed.bozo:
             self.feeds[parsed_feed.feed.title] = parsed_feed
             log.debug(f"Feed {parsed_feed.feed.title} added successfully.")
