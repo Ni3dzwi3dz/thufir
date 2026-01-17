@@ -3,23 +3,30 @@ repos:
   rev: v5.0.0
   hooks:
     - id: trailing-whitespace
+      files: ^(src/|tests/)
     - id: end-of-file-fixer
+      files: ^(src/|tests/)
     - id: debug-statements
+      files: ^(src/|tests/)
     - id: check-ast
+      files: ^(src/|tests/)
     - id: detect-private-key
+      files: ^(src/|tests/)
 
 - repo: https://github.com/psf/black-pre-commit-mirror
   rev: 25.1.0
   hooks:
     - id: black
-      language_version: python3.12
+      files: ^(src/|tests/)
 - repo: https://github.com/pre-commit/mirrors-mypy
-  rev: v0.990
+  rev: v1.19.1
   hooks:
     - id: mypy
-      additional_dependencies: [types-pkg-resources==0.1.3, types-all==1.0.0,"pydantic==v2.6.2",  "sqlmodel==0.0.25"]
+      additional_dependencies: [types-pkg-resources==0.1.3, types-all==1.0.0]
+      files: ^(src/|tests/)
 - repo: https://github.com/charliermarsh/ruff-pre-commit
   rev: "v0.1.7"
   hooks:
     - id: ruff
       args: [--fix]
+      files: ^(src/|tests/)
