@@ -1,9 +1,11 @@
 <script lang="ts">
-  import { resolve } from 'path';
+  import { resolve } from '$app/paths';
+  import type { Pathname } from '$app/types';
+
 
   export let onClick: () => void = () => {};
   export let text: string = '';
-  export let href: string | null = null;
+  export let href: Pathname | null = null;
   export let type: 'button' | 'submit' = 'button';
   export let disabled: boolean = false;
 </script>
