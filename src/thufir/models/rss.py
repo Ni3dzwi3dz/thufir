@@ -1,5 +1,9 @@
-from typing import Optional, List
+from __future__ import annotations
+
 from datetime import datetime
+from typing import Optional
+
+from sqlalchemy.orm import relationship
 from sqlmodel import SQLModel, Field, Relationship
 
 
@@ -21,7 +25,9 @@ class Feed(FeedBase, table=True):  # type: ignore
     id: Optional[int] = Field(default=None, primary_key=True)
 
     # Relationship to articles
-    articles: List["Article"] = Relationship(back_populates="feed")
+    articles: list["Article"] = Relationship(
+        sa_relationship=relationship("Article", back_populates="feed")
+    )
 
 
 class FeedCreate(FeedBase):
@@ -54,7 +60,9 @@ class Article(ArticleBase, table=True):  # type: ignore
     feed_id: int = Field(foreign_key="feeds.id")
 
     # Relationship to feed
-    feed: Optional[Feed] = Relationship(back_populates="articles")
+    feed: "Feed" = Relationship(
+        sa_relationship=relationship("Feed", back_populates="articles")
+    )
 
 
 class ArticleCreate(ArticleBase):
