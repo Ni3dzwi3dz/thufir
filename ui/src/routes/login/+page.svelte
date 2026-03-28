@@ -1,8 +1,7 @@
 <script lang="ts">
   import { goto } from '$app/navigation';
   import AuthForm from '$lib/components/AuthForm.svelte';
-  import type { User } from '$lib/auth';
-  import { resolve } from 'path';
+  import { resolve } from '$app/paths';
 
   function handleSuccess(): void {
     void goto(resolve('/profile'));

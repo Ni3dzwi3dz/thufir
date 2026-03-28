@@ -3,7 +3,7 @@
   import { onMount } from 'svelte';
 
   import { fetchCurrentUser, getCurrentAuth, type User } from '$lib/auth';
-  import { resolve } from 'path';
+  import { resolve } from '$app/paths';
 
   let user = $state<User | null>(getCurrentAuth().user);
   let errorMessage = $state('');
