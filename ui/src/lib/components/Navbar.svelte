@@ -15,8 +15,8 @@
   <nav>
     <ul id="menu" class="m-0 flex list-none items-center gap-6 p-0">
       <li><Button text="Home" href="/" /></li>
-      <li><Button text="About" href="/about" /></li>
-      <li><Button text="Contact" href="/contact" /></li>
+      <li><Button text="About" /></li>
+      <li><Button text="Contact"/></li>
     </ul>
   </nav>
 
