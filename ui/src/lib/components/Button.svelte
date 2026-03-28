@@ -1,21 +1,28 @@
 <script lang="ts">
-	export let onClick: () => void = () => {};
-	export let text: string = '';
-	export let href: string | null = null;
+  import { resolve } from '$app/paths';
+  import type { Pathname } from '$app/types';
+
+  export let onClick: (() => void) | undefined = undefined;
+  export let text = '';
+  export let href: Pathname | null = null;
+  export let type: 'button' | 'submit' = 'button';
+  export let disabled = false;
 </script>
 
 {#if href}
-	<a
-		{href}
-		class="bg-[#64001E] rounded-md px-4 py-2 text-white hover:bg-[#4a0015] transition-colors inline-block"
-	>
-		{text}
-	</a>
+  <a
+    href={resolve(href)}
+    class="inline-block rounded-md bg-[#64001E] px-4 py-2 text-white transition-colors hover:bg-[#4a0015]"
+  >
+    {text}
+  </a>
 {:else}
-	<button
-		on:click={onClick}
-		class="bg-[#64001E] rounded-md px-4 py-2 text-white hover:bg-[#4a0015] transition-colors"
-	>
-		{text}
-	</button>
+  <button
+    {type}
+    {disabled}
+    onclick={onClick}
+    class="rounded-md bg-[#64001E] px-4 py-2 text-white transition-colors hover:bg-[#4a0015] disabled:cursor-not-allowed disabled:opacity-60"
+  >
+    {text}
+  </button>
 {/if}

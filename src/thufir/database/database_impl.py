@@ -2,8 +2,9 @@ from contextlib import contextmanager
 from sqlalchemy import create_engine, select
 from sqlalchemy.orm import Session
 from sqlalchemy.engine import Engine
+from sqlalchemy.pool import StaticPool
 from sqlmodel import SQLModel
-from typing import Generator, List, Type, TypeVar
+from typing import Any, Generator, List, Type, TypeVar
 
 from src.thufir.config.database_config import DatabaseConfig
 from src.thufir.abstractions.database import Database
@@ -35,7 +36,18 @@ class DatabaseImpl(Database):
 
     def _create_engine(self, connection_string: str, echo: bool) -> Engine:
         try:
-            return create_engine(connection_string, echo=echo)
+            connect_args = {}
+            engine_kwargs: dict[str, Any] = {"echo": echo}
+
+            if connection_string.startswith("sqlite"):
+                connect_args["check_same_thread"] = False
+                if connection_string.endswith(":memory:"):
+                    engine_kwargs["poolclass"] = StaticPool
+
+            if connect_args:
+                engine_kwargs["connect_args"] = connect_args
+
+            return create_engine(connection_string, **engine_kwargs)
         except Exception as e:
             raise EngineCreationError(f"Failed to create database engine: {e}")
 
