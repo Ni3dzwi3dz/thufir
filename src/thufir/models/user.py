@@ -29,7 +29,9 @@ class User(UserBase, table=True):  # type: ignore
 class UserCreate(UserBase):
     """Model for creating a new user (without ID, with plain password)"""
 
-    password: str = Field(description="Plain text password (will be hashed)", min_length=8)
+    password: str = Field(
+        description="Plain text password (will be hashed)", min_length=8
+    )
 
 
 class UserRead(UserBase):

@@ -40,8 +40,15 @@ describe('auth store', () => {
 		);
 
 		const result = await login('reader1', 'supersecret');
+		expect(result).toEqual({
+			success: true,
+			data: {
+				access_token: 'token-123',
+				token_type: 'bearer',
+				user
+			}
+		});
 
-		expect(result.success).toBe(true);
 		expect(get(auth)).toEqual({
 			isAuthenticated: true,
 			token: 'token-123',

@@ -122,15 +122,27 @@ async function sendAuthRequest<T extends object>(
     endpoint: string,
     payload: T
 ): Promise<AuthResult> {
-    const response = await fetch(endpoint, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(payload)
-    });
+    try {
+        const response = await fetch(buildApiUrl(endpoint), {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+        });
 
-    return response.json();
+        if (!response.ok) {
+            return { success: false, error: await parseError(response) };
+        }
+
+        const data = (await response.json()) as AuthResponse;
+        return { success: true, data: applyAuthResponse(data) };
+    } catch (error) {
+        return {
+            success: false,
+            error: error instanceof Error ? error.message : 'An unknown error occurred'
+        };
+    }
 }
 
 export async function register(input: RegisterInput): Promise<AuthResult> {

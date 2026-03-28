@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 from sqlalchemy.engine import Engine
 from sqlalchemy.pool import StaticPool
 from sqlmodel import SQLModel
-from typing import Generator, List, Type, TypeVar
+from typing import Any, Generator, List, Type, TypeVar
 
 from src.thufir.config.database_config import DatabaseConfig
 from src.thufir.abstractions.database import Database
@@ -37,7 +37,7 @@ class DatabaseImpl(Database):
     def _create_engine(self, connection_string: str, echo: bool) -> Engine:
         try:
             connect_args = {}
-            engine_kwargs = {"echo": echo}
+            engine_kwargs: dict[str, Any] = {"echo": echo}
 
             if connection_string.startswith("sqlite"):
                 connect_args["check_same_thread"] = False

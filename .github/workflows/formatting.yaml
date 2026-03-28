@@ -23,6 +23,9 @@ jobs:
   svelte-lint:
     name: Check frontend code quality
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ui
     steps:
       - uses: actions/checkout@v4
         with:
@@ -35,9 +38,7 @@ jobs:
           cache-dependency-path: ui/package-lock.json
       - name: Install frontend dependencies
         run: npm ci
-      - name: Run ESLint
-        run: npx eslint "ui/src/**/*.{js,ts,svelte}"
-      - name : Run Prettier
-        run: npx prettier --check "ui/src/**/*.{js,ts,svelte}"
+      - name: Run lint
+        run: npm run lint
       - name: Run check
         run: npm run check

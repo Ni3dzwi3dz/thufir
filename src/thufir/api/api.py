@@ -16,7 +16,9 @@ from src.thufir.models.user import AuthResponse, UserCreate, UserLogin, UserRead
 router = APIRouter()
 
 
-@router.post("/auth/register", response_model=AuthResponse, status_code=status.HTTP_201_CREATED)
+@router.post(
+    "/auth/register", response_model=AuthResponse, status_code=status.HTTP_201_CREATED
+)
 def register(
     user_data: UserCreate,
     session: Annotated[Session, Depends(get_session)],
