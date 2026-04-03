@@ -5,16 +5,10 @@ build-backend = "hatchling.build"
 [project]
 name = "thufir"
 authors = [{name = "ni3dzwi3dz"}]
-version = "0.1.0"
-requires-python = ">=3.8,<4.0"
+version = "0.2.0"
+requires-python = ">=3.12,<4.0"
 dependencies = [
-    "fastapi[standard]==0.115.8",
-    "feedparser==6.0.11",
-    "langchain==0.3.25",
-    "sqlmodel==0.0.25",
-    "psycopg2==2.9.10",
-    "pre-commit==4.2.0",
-    "dependency-injector==4.48.2"
+ "djangorestframework==3.17.1"
 ]
 
 [project.optional-dependencies]
@@ -26,11 +20,12 @@ testing = [
 dev = "src.thufir.thufir:dev"
 
 [tool.hatch.envs.default]
-python = "3.13"
+python = "3.12"
 features = ["testing"]
 
 [tool.hatch.envs.default.scripts]
 unit = ["pytest tests/"]
+serve = ["python manage.py runserver"]
 
 [tool.hatch.build.targets.wheel]
 packages = ["reader"]
