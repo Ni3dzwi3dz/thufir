@@ -8,13 +8,24 @@ authors = [{name = "ni3dzwi3dz"}]
 version = "0.2.0"
 requires-python = ">=3.12,<4.0"
 dependencies = [
- "djangorestframework==3.17.1"
+ "dependency-injector==4.48.1",
+ "djangorestframework==3.17.1",
+ "djangorestframework-simplejwt==5.5.1",
+ "django-mongodb-backend==6.0.3",
+ "pydantic-settings==2.10.1",
+ "PyYAML==6.0.3"
 ]
 
 [project.optional-dependencies]
 testing = [
-    "pytest"
+    "pytest",
+    "pytest-django"
 ]
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "thufir.settings"
+pythonpath = ["src"]
+testpaths = ["tests", "src"]
 
 [project.scripts]
 dev = "src.thufir.thufir:dev"

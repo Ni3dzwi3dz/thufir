@@ -1,0 +1,17 @@
+django:
+  secret_key: change-me
+  debug: true
+  allowed_hosts:
+    - localhost
+    - 127.0.0.1
+mongo:
+  host: localhost
+  port: 27017
+  name: thufir_db
+  username: null
+  password: null
+  auth_source: admin
+jwt:
+  access_token_minutes: 5
+  refresh_token_hours: 24
+  algorithm: HS256
