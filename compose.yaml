@@ -1,0 +1,33 @@
+services:
+  mongodb:
+    image: mongo:7
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${THUFIR_MONGO_USERNAME:-thufir}
+      MONGO_INITDB_ROOT_PASSWORD: ${THUFIR_MONGO_PASSWORD:-thufir}
+      MONGO_INITDB_DATABASE: ${THUFIR_MONGO_DATABASE:-thufir_db}
+    ports:
+      - "${THUFIR_MONGO_PORT:-27017}:27017"
+    volumes:
+      - mongo_data:/data/db
+
+  thufir_backend:
+    build:
+      context: ./thufir_backend
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    depends_on:
+      - mongodb
+    ports:
+      - "${THUFIR_BACKEND_PORT:-8000}:8000"
+    environment:
+      THUFIR_MONGO_HOST: mongodb
+      THUFIR_MONGO_PORT: "27017"
+      THUFIR_MONGO_DATABASE: ${THUFIR_MONGO_DATABASE:-thufir_db}
+      THUFIR_MONGO_USERNAME: ${THUFIR_MONGO_USERNAME:-thufir}
+      THUFIR_MONGO_PASSWORD: ${THUFIR_MONGO_PASSWORD:-thufir}
+      THUFIR_MONGO_AUTH_SOURCE: ${THUFIR_MONGO_AUTH_SOURCE:-admin}
+      THUFIR_MONGO_CONNECTION_STRING: mongodb://${THUFIR_MONGO_USERNAME:-thufir}:${THUFIR_MONGO_PASSWORD:-thufir}@mongodb:27017/${THUFIR_MONGO_DATABASE:-thufir_db}?authSource=${THUFIR_MONGO_AUTH_SOURCE:-admin}
+
+volumes:
+  mongo_data:
